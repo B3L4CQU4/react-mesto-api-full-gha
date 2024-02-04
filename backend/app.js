@@ -80,6 +80,10 @@ app.use((error, req, res, next) => {
     ip: req.ip,
     error: error.message,
   });
+  next();
+});
+
+app.use((error, req, res, next) => {
   handleErrors(error, req, res, next);
   next();
 });
