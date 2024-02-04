@@ -16,4 +16,5 @@ node_modules
 
 run.sh
 stop.sh
+front.sh
 .env
