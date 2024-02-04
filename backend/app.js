@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 mongoose.connect(
-  DB_ADDRESS,
+  process.env.NODE_ENV === 'production' ? DB_ADDRESS : 'mongodb://localhost:27017/mestodb',
   {
     autoIndex: true,
   },
