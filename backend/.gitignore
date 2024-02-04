@@ -14,4 +14,8 @@ node_modules
 .idea
 .vscode
 
+# Опционально для .sh файлов и .env файла
+run.sh
+stop.sh
+front.sh
 .env
