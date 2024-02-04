@@ -18,7 +18,7 @@ const {
 } = require('./validation/validation');
 const { requestLogger, errorLogger } = require('./logger/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DB_ADDRESS } = process.env;
 
 const app = express();
 
@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 mongoose.connect(
-  'mongodb://localhost:27017/mestodb',
+  DB_ADDRESS,
   {
     autoIndex: true,
   },
