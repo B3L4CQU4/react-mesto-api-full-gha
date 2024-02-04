@@ -46,23 +46,19 @@ app.post('/signin', validateLogin, login);
 app.post('/signup', validateCreateUser, createUser);
 
 app.use((req, res, next) => {
-  if (req.url === '/signin' || req.url === '/signup') {
-    next(); // Пропустить authMiddleware для /signin и /signup
-  } else {
-    authMiddleware(req, res, next);
-  }
+  authMiddleware(req, res, next);
 });
 
 app.use(userRouter);
 app.use(cardRouter);
 
-app.use(errorLogger);
-
-app.use(errors());
-
 app.all('*', (req, res, next) => {
   next(new NotFound('Not Found'));
 });
+
+app.use(errorLogger);
+
+app.use(errors());
 
 app.use((error, req, res, next) => {
   handleErrors(error, req, res, next);

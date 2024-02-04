@@ -10,6 +10,14 @@ const cardSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true,
+    validate: {
+      validator: (value) => {
+        // Регулярное выражение для проверки формата URL
+        const urlRegex = /^(https?:\/\/)?(www\.)?([\w-]+(\.[\w-]+)+\/?)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/;
+        return urlRegex.test(value);
+      },
+      message: 'Invalid avatar URL format',
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
