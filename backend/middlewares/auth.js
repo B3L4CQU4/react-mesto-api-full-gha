@@ -14,7 +14,7 @@ const authMiddleware = (req, res, next) => {
   const token = authorization.split('Bearer ')[1];
   let payload;
   try {
-    payload = jwt.verify(token, JWT_SECRET);
+    payload = jwt.verify(token, process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (error) {
     next(error);
   }
