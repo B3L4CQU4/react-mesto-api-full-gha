@@ -10,7 +10,7 @@ const AuthError = require('../errors/authError');
 const OK_CODE = 200;
 const CREATED_CODE = 201;
 
-const { SECRET_KEY } = process.env;
+const { JWT_SECRET } = process.env;
 
 const getUsers = async (req, res, next) => {
   try {
@@ -124,7 +124,7 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (user && await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ _id: user._id }, SECRET_KEY);
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET);
       // res.cookie('jwt', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
       // res.status(OK_CODE).json({ message: 'Login successful', _id: user._id });
       res.status(OK_CODE).send({ token });

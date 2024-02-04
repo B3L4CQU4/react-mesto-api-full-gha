@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/authError');
 
-const { SECRET_KEY } = process.env;
+const { JWT_SECRET } = process.env;
 
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
@@ -14,7 +14,7 @@ const authMiddleware = (req, res, next) => {
   const token = authorization.split('Bearer ')[1];
   let payload;
   try {
-    payload = jwt.verify(token, SECRET_KEY);
+    payload = jwt.verify(token, JWT_SECRET);
   } catch (error) {
     next(error);
   }
