@@ -1,23 +1,20 @@
 const winston = require('winston');
-
-const { format } = winston;
+const expressWinston = require('express-winston');
 
 // Логгер для запросов
-const requestLogger = winston.createLogger({
-  level: 'info',
-  format: format.json(),
+const requestLogger = expressWinston.logger({
   transports: [
     new winston.transports.File({ filename: 'request.log' }),
   ],
+  format: winston.format.json(),
 });
 
 // Логгер для ошибок
-const errorLogger = winston.createLogger({
-  level: 'error',
-  format: format.json(),
+const errorLogger = expressWinston.errorLogger({
   transports: [
     new winston.transports.File({ filename: 'error.log' }),
   ],
+  format: winston.format.json(),
 });
 
 module.exports = {

@@ -40,16 +40,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use((req, res, next) => {
-  requestLogger.info({
-    method: req.method,
-    url: req.url,
-    query: req.query,
-    body: req.body,
-    ip: req.ip,
-  });
-  next();
-});
+app.use(requestLogger);
 
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateCreateUser, createUser);
@@ -65,22 +56,12 @@ app.use((req, res, next) => {
 app.use(userRouter);
 app.use(cardRouter);
 
+app.use(errorLogger);
+
 app.use(errors());
 
 app.all('*', (req, res, next) => {
   next(new NotFound('Not Found'));
-});
-
-app.use((error, req, res, next) => {
-  errorLogger.error({
-    method: req.method,
-    url: req.url,
-    query: req.query,
-    body: req.body,
-    ip: req.ip,
-    error: error.message,
-  });
-  next();
 });
 
 app.use((error, req, res, next) => {
