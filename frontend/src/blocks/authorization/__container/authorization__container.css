@@ -1,0 +1,9 @@
+.authorization__container {
+  position: relative;
+}
+
+@media screen and (max-width: 630px) {
+  .authorization__container {
+    width: 282px;
+  }
+}

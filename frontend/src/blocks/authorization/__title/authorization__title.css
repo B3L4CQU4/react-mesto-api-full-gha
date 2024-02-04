@@ -1,0 +1,25 @@
+.authorization__title {
+  margin: 0;
+  padding: 0;
+  margin-top: 59px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 42px;
+  text-align: center;
+  color: #FFF;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  width: 358px;
+}
+
+@media screen and (max-width: 630px) {
+  .authorization__title {
+    width: 238px;
+    font-size: 18px;
+    margin-top: 25px;
+    margin-left: 22px;
+    margin-bottom: 69px;
+  }
+}

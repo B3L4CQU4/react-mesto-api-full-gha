@@ -1,0 +1,11 @@
+.profile__img {
+  margin: 0;
+  padding: 0;
+  background-position: 50%;
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  min-height: 120px;
+  min-width: 120px;
+  object-fit:cover;
+}

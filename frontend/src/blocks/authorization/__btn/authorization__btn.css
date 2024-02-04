@@ -1,0 +1,14 @@
+.authorization__btn {
+    margin: 0;
+    padding: 0;
+    margin-top: 16px;
+    color: #FFF;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: none;
+    width: 358px;
+    background-color: inherit; 
+}
