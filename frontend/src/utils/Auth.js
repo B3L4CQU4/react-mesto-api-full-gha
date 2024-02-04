@@ -48,7 +48,7 @@ class Auth {
 }
 
 const auth = new Auth({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://api.belacqua-mesto.nomoredomainsmonster.ru',
     headers: {
       'Content-Type': 'application/json'
     }

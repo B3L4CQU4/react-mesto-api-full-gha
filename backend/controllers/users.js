@@ -121,7 +121,7 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select({ password: true });
 
     if (user && await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ _id: user._id }, process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
