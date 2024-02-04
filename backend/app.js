@@ -2,6 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+const cors = require('cors');
+const dotenv = require('dotenv');
+
+// Загрузите переменные окружения из .env файла
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
@@ -14,10 +21,13 @@ const {
   validateCreateUser,
   validateLogin,
 } = require('./validation/validation');
+const { requestLogger, errorLogger } = require('./logger/logger');
 
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
@@ -28,6 +38,23 @@ mongoose.connect(
     autoIndex: true,
   },
 );
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
+app.use((req, res, next) => {
+  requestLogger.info({
+    method: req.method,
+    url: req.url,
+    query: req.query,
+    body: req.body,
+    ip: req.ip,
+  });
+  next();
+});
 
 app.post('/signin', validateLogin, login);
 app.post('/signup', validateCreateUser, createUser);
@@ -50,6 +77,14 @@ app.all('*', (req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
+  errorLogger.error({
+    method: req.method,
+    url: req.url,
+    query: req.query,
+    body: req.body,
+    ip: req.ip,
+    error: error.message,
+  });
   handleErrors(error, req, res, next);
   next();
 });

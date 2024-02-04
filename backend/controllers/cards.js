@@ -1,13 +1,10 @@
 // controllers/cards.js
-const jwt = require('jsonwebtoken');
 const Card = require('../models/cards');
 const NotFound = require('../errors/notFound');
 const NotOwner = require('../errors/notOwner');
 
 const OK_CODE = 200;
 const CREATED_CODE = 201;
-
-const { SECRET_KEY } = process.env;
 
 // GET /cards
 const getCards = async (req, res, next) => {
@@ -42,14 +39,7 @@ const deleteCardById = async (req, res, next) => {
     // Поиск карточки по ID
     const card = await Card.findById(cardId);
 
-    // Извлекаем токен из куки
-    const token = req.cookies.jwt;
-
-    // Декодируем токен, чтобы получить информацию, включенную при подписи
-    const decodedToken = jwt.verify(token, SECRET_KEY);
-
-    // Извлекаем _id из декодированного токена
-    const userId = decodedToken._id;
+    const userId = req.user._id;
 
     // Проверка, существует ли карта
     if (!card) {

@@ -1,5 +1,3 @@
-const BASE_URL = 'https://auth.nomoreparties.co'
-
 class Auth {
     constructor(options) {
       this._baseUrl = options.baseUrl;
@@ -10,7 +8,7 @@ class Auth {
         if (res.ok) {
           return res.json();
         }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return Promise.reject(`Ошибка: ${res.status}/${res.statusText}`);
     }
 
     register(email, password) {
@@ -50,7 +48,7 @@ class Auth {
 }
 
 const auth = new Auth({
-    baseUrl: 'https://auth.nomoreparties.co',
+    baseUrl: 'http://localhost:3000',
     headers: {
       'Content-Type': 'application/json'
     }

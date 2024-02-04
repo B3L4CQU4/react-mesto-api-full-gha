@@ -4,7 +4,7 @@ const validateCreateUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().uri({ allowRelative: false }).pattern(/^[a-zA-Z0-9-_:/?#&=.,;+]*$/),
+    avatar: Joi.string().uri({ allowRelative: false }).pattern(/^[a-zA-Z0-9-_:/?#&=.,;+()%]*$/),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
@@ -12,7 +12,7 @@ const validateCreateUser = celebrate({
 
 const validateUpdateAvatar = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().uri({ allowRelative: false }).pattern(/^[a-zA-Z0-9-_:/?#&=.,;+]*$/),
+    avatar: Joi.string().uri({ allowRelative: false }).pattern(/^[a-zA-Z0-9-_:/?#&=.,;+()%]*$/),
   }),
 });
 
@@ -45,7 +45,7 @@ const validateCardId = celebrate({
 const validateCreateCard = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    link: Joi.string().uri({ allowRelative: false }).pattern(/^[a-zA-Z0-9-_:/?#&=.,;+]*$/).required(),
+    link: Joi.string().uri({ allowRelative: false }).pattern(/^[a-zA-Z0-9-_:/?#&=.,;+()%]*$/).required(),
   }),
 });
 

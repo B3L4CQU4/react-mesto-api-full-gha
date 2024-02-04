@@ -4,17 +4,25 @@ class Api {
     this._headers = options.headers;
   }
 
+  _getTokenHeaders() {
+    const token = localStorage.getItem('jwt');
+    return {
+      ...this._headers,
+      authorization: `Bearer ${token}`
+    };
+  }
+
   // Получение информации о пользователе
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers
+      headers: this._getTokenHeaders()
     })
     .then(this._checkResponse);
   }
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers
+      headers: this._getTokenHeaders()
     })
     .then(this._checkResponse);
   }
@@ -22,7 +30,7 @@ class Api {
   updateProfile(name, about) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: this._getTokenHeaders(),
       body: JSON.stringify({
         name: name,
         about: about
@@ -34,10 +42,7 @@ class Api {
   addCard(name, link) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
-      headers: {
-        ...this._headers,
-        'Content-Type': 'application/json'
-      },
+      headers: this._getTokenHeaders(),
       body: JSON.stringify({
         name: name,
         link: link
@@ -56,7 +61,7 @@ class Api {
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers
+      headers: this._getTokenHeaders(),
     })
     .then(this._checkResponse);
   }
@@ -64,7 +69,7 @@ class Api {
   changeLikeCardStatus(cardId, like) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: like ? 'PUT' : 'DELETE',
-      headers: this._headers
+      headers: this._getTokenHeaders(),
     })
     .then(this._checkResponse);
   }
@@ -72,7 +77,7 @@ class Api {
   updateAvatar(avatarURL) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: this._getTokenHeaders(),
       body: JSON.stringify({
         avatar: avatarURL
       })
@@ -82,9 +87,8 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-77',
+  baseUrl: 'http://localhost:3000',
   headers: {
-    authorization: '467902c0-4923-4482-bd79-cb7fafe103fe',
     'Content-Type': 'application/json'
   }
 });

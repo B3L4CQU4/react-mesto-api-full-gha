@@ -39,14 +39,8 @@ const getUserById = async (req, res, next) => {
 
 const getUserInfo = async (req, res, next) => {
   try {
-    // Извлекаем токен из куки
-    const token = req.cookies.jwt;
-
-    // Декодируем токен, чтобы получить информацию, включенную при подписи
-    const decodedToken = jwt.verify(token, SECRET_KEY);
-
     // Извлекаем _id из декодированного токена
-    const userId = decodedToken._id;
+    const userId = req.user._id;
 
     const user = await User.findById(userId);
 
@@ -130,9 +124,10 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (user && await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ _id: user._id }, SECRET_KEY, { expiresIn: '1w' });
-      res.cookie('jwt', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
-      res.status(OK_CODE).json({ message: 'Login successful', _id: user._id });
+      const token = jwt.sign({ _id: user._id }, SECRET_KEY);
+      // res.cookie('jwt', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
+      // res.status(OK_CODE).json({ message: 'Login successful', _id: user._id });
+      res.status(OK_CODE).send({ token });
     } else {
       throw new AuthError('Invalid email or password');
     }

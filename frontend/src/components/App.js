@@ -40,7 +40,7 @@ function App() {
       if (jwt) {
         try {
           const tokenData = await auth.checkToken(jwt);
-          updateUserData(tokenData.data.email);
+          updateUserData(tokenData.email);
           setIsLogined(true);
           performNavigation();
         } catch (err) {
@@ -117,7 +117,7 @@ function App() {
   };
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(like => like._id === currentUser._id);
+    const isLiked = card.likes.some(like => like === currentUser._id);
     
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
