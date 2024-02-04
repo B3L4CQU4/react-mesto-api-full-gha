@@ -1,14 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
-const dotenv = require('dotenv');
-
-// Загрузите переменные окружения из .env файла
-if (process.env.NODE_ENV !== 'production') {
-  dotenv.config();
-}
 
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
