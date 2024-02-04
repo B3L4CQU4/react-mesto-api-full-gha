@@ -5,6 +5,9 @@ const { SECRET_KEY } = process.env;
 
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
+  if (!authorization) {
+    throw new AuthError('Unauthorized: Token missing');
+  }
   if (!authorization.startsWith('Bearer ')) {
     throw new AuthError('Unauthorized: Token missing');
   }
